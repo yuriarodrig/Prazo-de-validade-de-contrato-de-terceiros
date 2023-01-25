@@ -33,4 +33,13 @@ def emissao_terceiro():
     query = pd.read_sql(
         "SELECT B6_EMISSAO AS DATA, B6_DOC AS DOCUMENTO, B6_CLIFOR AS C0D_FORNECEDOR, A2_NOME AS FORNECEDOR FROM SB6010 SB6 INNER JOIN SA2010 SA2 ON B6_CLIFOR = A2_COD WHERE B6_EMISSAO > '20220731'",
         conn)
-    df = pd.DataFrame(query)
+    #data é a minha DATA DE EMISSAO DA NOTA, e vou transformar ela é datetime.    antes ela estava em object
+    query['DATA'] = pd.to_datetime(query['DATA'])
+    data = date.today()
+    data = pd.to_datetime(data)  #transfomei a data atual em leitura datetime igual a minha query['DATA']
+    query['Diferença de dias'] = data - query['DATA']  #Fiz a diferença de dias da data hoje(atual) com a data de emissão da nota 
+    
+    #Meu objetivo é avisar 1 semana antes data de vencimento, as notas tem um prazo de 180 dias
+    #Então a diferença da data atual e a data emissão tem que ser 173 dias.   já está perto de 180 dias
+    agrupar = (query.loc[(query['Diferença de dias'] == '173 days')])
+    #Minha busca de notas está pronta
