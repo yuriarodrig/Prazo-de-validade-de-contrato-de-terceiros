@@ -1,5 +1,5 @@
 #Importações das bibliotecas necessárias
-import streamlit as st	
+import streamlit as st	#Importei apenas para ter uma visualização WEB
 import pandas as pd
 import os
 from datetime import date
